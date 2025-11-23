@@ -1,0 +1,350 @@
+@import "tailwindcss";
+
+/* Smooth scrolling for in-page anchor navigation */
+html { scroll-behavior: smooth; }
+
+/* Base theme colors */
+body {
+  background-color: #ffffff;
+  color: #171717;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html.dark body {
+  background-color: #000000;
+  color: #ededed;
+}
+
+/* Utility visibility helpers */
+.light-only { display: block; }
+.dark-only { display: none; }
+html.dark .light-only { display: none; }
+html.dark .dark-only { display: block; }
+
+/* Pill nav links */
+.nav-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  border: 2px solid #000;
+  color: #000;
+  background: transparent;
+  text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease, color .2s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+.nav-pill::before {
+  content: "";
+  position: absolute;
+  inset: -120% auto auto -120%;
+  width: 220%;
+  height: 220%;
+  transform: rotate(25deg);
+  background: linear-gradient(45deg, transparent, rgba(0,0,0,0.05), transparent);
+  transition: transform .5s ease, opacity .35s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.nav-pill:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0,0,0,.15);
+}
+.nav-pill:hover::before {
+  opacity: 1;
+  transform: translate(55%,55%) rotate(25deg);
+}
+
+/* Dark mode */
+.dark .nav-pill {
+  border-color: #fff;
+  color: #fff;
+}
+.dark .nav-pill::before {
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+.dark .nav-pill:hover {
+  box-shadow: 0 0 15px rgba(255,255,255,.2);
+}
+
+/* Logo tint */
+.logo-theme {
+  transition: filter .25s ease;
+}
+html.dark .logo-theme {
+  filter: invert(1) hue-rotate(180deg) saturate(0.9) contrast(0.95);
+}
+
+/* Minimal styles to support Features section */
+.section-padding { padding-top: 6rem; padding-bottom: 6rem; }
+/* Responsive container with fluid inline padding */
+.container-custom {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
+}
+.card { background: #E2E4E8; border: 1px solid #e5e7eb; border-radius: 1rem; padding: 1.25rem; transition: box-shadow .25s ease, transform .25s ease; }
+.dark .card { background: #0a0a0a; border-color: rgba(255,255,255,0.1); }
+.card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+.text-gradient-primary { background-image: linear-gradient(90deg,#6366f1,#8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dark .text-gradient-primary { background-image: linear-gradient(90deg,#a78bfa,#60a5fa); }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .75rem 1rem; border-radius: .75rem; background: #111827; color: #fff; transition: transform .2s ease, box-shadow .2s ease; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,.15); }
+.dark .btn-primary { background: #1f2937; }
+.dark .product-card {
+  background: #0a0a0a; /* same as Code 1 */
+  border-color: rgba(255,255,255,0.1);
+}
+/* Theme variables for surfaces and text to keep sections aligned in light/dark */
+:root {
+  --bg-surface: #ffffff;   /* elevated surface */
+  --text-primary: #111827; /* slate-900 */
+  --text-secondary: #4b5563; /* gray-600 */
+  --bg-muted: #f8fafc;     /* subtle section bg */
+}
+html.dark {
+  --bg-surface: #121212;   /* elevated dark surface */
+  --text-primary: #e5e7eb; /* zinc-200 */
+  --text-secondary: #a1a1aa; /* zinc-400 */
+  --bg-muted: #0b0b0f;     /* subtle dark bg */
+}
+
+/* Variable-driven helpers */
+.ux-text-primary { color: var(--text-primary); }
+.ux-text-secondary { color: var(--text-secondary); }
+.ux-surface { background-color: var(--bg-surface); }
+.ux-muted { background-color: var(--bg-muted); }
+.features-badge { background-color: var(--bg-surface); }
+/* Anchor offset so in-page links don't hide headings under the navbar (future sticky nav safe) */
+section[id] { scroll-margin-top: clamp(64px, 12vh, 120px); }
+/* For screens above 1020px, center and adjust navbar items */
+@media (min-width: 1020px) {
+  .nav-container {
+    justify-content: center;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Remove the hamburger menu for larger screens */
+  .hamburger {
+    display: none;
+  }
+}
+
+/* For screens below 1020px */
+@media (max-width: 1020px) {
+  .nav-links {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hamburger {
+    display: inline-block;
+  }
+
+  .nav-pill {
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* For very large screens (1200px and above), add additional padding */
+@media (min-width: 1200px) {
+  .nav-container {
+    padding: 0 30px;
+  }
+}
+
+/* About Us pill styles */
+.cursor-box {
+  background-color: transparent;
+  color: #111;
+  border: 2px solid #000;
+  border-radius: 9999px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem; /* a little bigger */
+  line-height: 1.1;
+  padding: 0.5rem 1rem; /* bigger pill */
+  transition: color .2s ease, border-color .2s ease, transform .2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cursor-box::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+  top: -100%;
+  left: -100%;
+  transition: all 0.5s ease;
+}
+
+.cursor-box:hover::before {
+  top: 100%;
+  left: 100%;
+}
+
+/* Unique styles for the pointer variant */
+.pointer { cursor: pointer; background: transparent; border-color: inherit; }
+.pointer:hover { transform: scale(1.03); }
+
+/* Dark mode overrides for About Us pill */
+html.dark .cursor-box {
+  color: #fff;
+  border-color: #fff;
+  background-color: transparent;
+}
+
+/* Optional animations (not applied by default) */
+@keyframes pulse {
+  0% { transform: scale(1.05); }
+  50% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) scale(1.05); }
+  25% { transform: translateX(-5px) scale(1.05); }
+  75% { transform: translateX(5px) scale(1.05); }
+}
+
+@keyframes moveAround {
+  0% { transform: translate(0, 0) scale(1.05); }
+  25% { transform: translate(5px, -5px) scale(1.05); }
+  50% { transform: translate(0, 0) scale(1.05); }
+  75% { transform: translate(-5px, 5px) scale(1.05); }
+  100% { transform: translate(0, 0) scale(1.05); }
+}
+
+/* ===== Theme switcher variables and styles (Navbar) ===== */
+/* Scopes only variables used by the pill toggle and won't affect layout */
+:root {
+  --c-text-primary: #191919;
+  --c-text-secondary: #737374;
+  --c-border-primary: #ccc;
+  --c-bg-body: #f2f2f2;
+  --c-bg-primary: #ffffff;
+  --c-bg-secondary: #e1e3e8;
+  --c-bg-button: #ffffff;
+  --slider-shadow: inset 0 1px 1px #ddd, 0 2px 3px #ccc;
+}
+
+:root.dark-theme {
+  --c-text-primary: #eee;
+  --c-text-secondary: #d3d5db;
+  --c-border-primary: #454545;
+  --c-bg-body: #1e1e22;
+  --c-bg-primary: #2b2c32;
+  --c-bg-secondary: #3a3b42;
+  --c-bg-button: #494a50;
+  --slider-shadow: inset 0 1px 1px #767676;
+}
+
+.theme-switcher {
+  background-color: var(--c-bg-secondary);
+  border-radius: 999px;
+  display: flex;
+  padding: 4px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-switcher .slider {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: calc((100% - 8px) / 2);
+  top: 4px;
+  bottom: 4px;
+  border-radius: 999px;
+  transition: transform 0.25s ease-out, background-color 0.25s ease;
+  background-color: var(--c-bg-button);
+  box-shadow: var(--slider-shadow);
+}
+
+.theme-switcher input[type="radio"] {
+  display: none;
+}
+
+.theme-switcher input:nth-of-type(1):checked ~ .slider {
+  transform: translateX(0);
+}
+
+.theme-switcher input:nth-of-type(2):checked ~ .slider {
+  transform: translateX(100%);
+}
+
+.theme-switcher label {
+  position: relative;
+  z-index: 2;
+  width: calc(100% / 2);
+  color: var(--c-text-secondary);
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.theme-switcher label span {
+  padding: 8px 0;
+  border-radius: 999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  gap: 6px;
+}
+
+.theme-switcher input#light-theme:checked + label,
+.theme-switcher input#dark-theme:checked + label {
+  color: var(--c-text-primary);
+}
+
+/* Match navbar pill sizing */
+.theme-switcher.nav-size {
+
+  height: 34px; /* a little smaller */
+  padding: 5px; /* keeps 4px inset for the slider */
+  background: transparent; /* match .cursor-box */
+  border: 2px solid #000; /* match .cursor-box */
+  transition: color .2s ease, border-color .2s ease; /* no scale animation */
+  position: relative;
+  overflow: hidden;
+}
+.theme-switcher.nav-size label {
+  width: 50%;
+}
+.theme-switcher.nav-size label span {
+  height: 100%;
+  padding: 0 10px; /* tighter to reduce width */
+  font-size: 0.9rem; /* a bit smaller */
+  line-height: 1.1;
+  gap: 3px; /* reduce icon/text gap to compact width */
+}
+.theme-switcher.nav-size .slider {
+  top: 3px;   /* match reduced height */
+  bottom: 3px;
+  width: calc((100% - 8px) / 2);
+}
+
+/* Dark mode: make background relate to navbar container tone */
+html.dark .theme-switcher.nav-size {
+  border-color: #fff;
+  background-color: #1b1b27; /* close to navbar gradient tone */
+}
